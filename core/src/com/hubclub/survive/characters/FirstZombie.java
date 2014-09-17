@@ -13,6 +13,8 @@ public class FirstZombie implements Character {
 	private int stateTime; // Used to animate
 	private int dir; // Used for direction (1 - right, 2 - down, 3 - left, 4 - up)
 	private int speed = 150; // 200 pixels / second
+	
+	private float sum;
 	private float time;
 	private Texture currentState;
 	
@@ -26,15 +28,36 @@ public class FirstZombie implements Character {
 		x = MathUtils.random(0, Gdx.graphics.getWidth());
 		y = MathUtils.random(0, Gdx.graphics.getHeight());
 		
-		
+		sum = 0f;
 	}// END OF CONSTRUCTOR
 		
 	public void render(float deltaTime) {
 		
+		
+		sum += deltaTime;
+		
+		if(sum >= time) {
+			
+			dir = MathUtils.random(1, 4);
+			time = MathUtils.random(7);
+			
+			sum = 0f;
+		}
+		
+		move(deltaTime);
 	}// END OF render METHOD
 
 	private void move(float deltaTime) {
 		
+		if(dir == 1) x-=speed * deltaTime;
+		else if(dir == 2) y-=speed * deltaTime;
+		else if(dir == 3) x+=speed * deltaTime;
+		else if(dir == 4) y+=speed * deltaTime;
+		
+		if(x + getTexture().getWidth() < 0) x = Gdx.graphics.getWidth();
+		else if(x > Gdx.graphics.getWidth()) x = 0;
+		else if(y + getTexture().getHeight() < 0) y = Gdx.graphics.getHeight();
+		else if(y > Gdx.graphics.getHeight()) y= 0;
 		
 	}// END OF move METHOD
 	

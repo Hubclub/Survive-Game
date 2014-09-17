@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.hubclub.survive.Survive;
 import com.hubclub.survive.characters.Bunny;
 import com.hubclub.survive.characters.FirstZombie;
@@ -15,6 +16,8 @@ public class GameScreen implements Screen {
 	private Survive game; // variable used to change the screen
 	private Bunny bunny;
 	private FirstZombie fzombie;
+	
+	private double startTime, endTime;
 	
 	private SpriteBatch batch;
 	private OrthographicCamera viewCam;
@@ -46,10 +49,11 @@ public class GameScreen implements Screen {
 		batch.setProjectionMatrix(viewCam.combined);
 		batch.begin();
 		batch.draw(bunny.getTexture(), bunny.getX(), bunny.getY(), bunny.getTexture().getWidth(), bunny.getTexture().getHeight());
+		batch.draw(fzombie.getTexture(), fzombie.getX(), fzombie.getY(), fzombie.getTexture().getWidth(), fzombie.getTexture().getHeight());
 		batch.end();
 		
 		bunny.render(delta);
-		
+		fzombie.render(delta);
 	}// END OF render METHOD
 	
 	public void resize(int width, int height) {
