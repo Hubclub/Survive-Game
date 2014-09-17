@@ -15,7 +15,10 @@ public class GameScreen implements Screen {
 	
 	private Survive game; // variable used to change the screen
 	private Bunny bunny;
-	private FirstZombie fzombie;
+	private FirstZombie fzombie1;
+	private FirstZombie fzombie2;
+	private FirstZombie fzombie3;
+	private FirstZombie fzombie4;
 	
 	private double startTime, endTime;
 	
@@ -33,8 +36,11 @@ public class GameScreen implements Screen {
 		batch = new SpriteBatch();
 		
 		bunny = new Bunny();
-		fzombie = new FirstZombie();
 		
+		fzombie1 = new FirstZombie();
+		fzombie2 = new FirstZombie();
+		fzombie3 = new FirstZombie();
+		fzombie4 = new FirstZombie();
 	}// END OF CONSTRUCTOR
 	
 	public void render(float delta) {
@@ -49,11 +55,20 @@ public class GameScreen implements Screen {
 		batch.setProjectionMatrix(viewCam.combined);
 		batch.begin();
 		batch.draw(bunny.getTexture(), bunny.getX(), bunny.getY(), bunny.getTexture().getWidth(), bunny.getTexture().getHeight());
-		batch.draw(fzombie.getTexture(), fzombie.getX(), fzombie.getY(), fzombie.getTexture().getWidth(), fzombie.getTexture().getHeight());
+		
+		batch.draw(fzombie1.getTexture(), fzombie1.getX(), fzombie1.getY(), fzombie1.getTexture().getWidth(), fzombie1.getTexture().getHeight());
+		batch.draw(fzombie2.getTexture(), fzombie2.getX(), fzombie2.getY(), fzombie2.getTexture().getWidth(), fzombie2.getTexture().getHeight());
+		batch.draw(fzombie3.getTexture(), fzombie3.getX(), fzombie3.getY(), fzombie3.getTexture().getWidth(), fzombie3.getTexture().getHeight());
+		batch.draw(fzombie4.getTexture(), fzombie4.getX(), fzombie4.getY(), fzombie4.getTexture().getWidth(), fzombie4.getTexture().getHeight());
+		
 		batch.end();
 		
 		bunny.render(delta);
-		fzombie.render(delta);
+		fzombie1.render(delta);
+		fzombie2.render(delta);
+		fzombie3.render(delta);
+		fzombie4.render(delta);
+		
 	}// END OF render METHOD
 	
 	public void resize(int width, int height) {
