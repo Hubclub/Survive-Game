@@ -3,17 +3,20 @@ package com.hubclub.survive.characters;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import com.hubclub.survive.Constants;
 
 public class FirstZombie implements Character {
 
-	private int charType = 2; // Means he is a mob ( 0 - object, 1 - bunny, 2 - mob)
+	private int charType = 2; // Means he is the mob ( 0 - object, 1 - bunny, 2 - mob)
 	  						  // Helps at collisions
 	private float x; // Coordinates
 	private float y;
 	private int stateTime; // Used to animate
 	private int dir; // Used for direction (1 - right, 2 - down, 3 - left, 4 - up)
-	private int speed = 120; // 120 pixels / second
+	private float speed = 120;// 120 pixels / second 
+	private Rectangle hitBox;
 	
 	private float sum;
 	private float time;
@@ -24,6 +27,9 @@ public class FirstZombie implements Character {
 		time = MathUtils.random(7);
 		
 		currentState = new Texture(Gdx.files.internal("images/zombie.png"));
+		
+		if(Constants.WIDTH_SCALE >= Constants.HEIGHT_SCALE) speed *= Constants.WIDTH_SCALE;
+		else if (Constants.WIDTH_SCALE < Constants.HEIGHT_SCALE) speed *= Constants.HEIGHT_SCALE;
 		
 		int random = MathUtils.random(1);
 		
@@ -38,6 +44,8 @@ public class FirstZombie implements Character {
 			x = MathUtils.random(0f, Gdx.graphics.getWidth());
 			
 		}
+		
+		hitBox = new Rectangle(x, y, getTexture().getWidth(), getTexture().getHeight());
 		
 		sum = 0f;
 	}// END OF CONSTRUCTOR
@@ -97,9 +105,14 @@ public class FirstZombie implements Character {
 		
 		return y;
 	}
-
-	public void dispose() {
+	
+	public Rectangle getRectangle() {
 		
+		return hitBox;
+	}
+	
+	public void dispose() {
+		currentState.dispose();
 	}
 
 	public Texture getTexture() {
@@ -113,8 +126,8 @@ public class FirstZombie implements Character {
 		
 		Array<Float> xArray = new Array<Float>();
 		
-		xArray.add(MathUtils.random(-getTexture().getWidth()*2f, -getTexture().getWidth()*1f));
-		xArray.add(MathUtils.random(Gdx.graphics.getWidth()*2f, Gdx.graphics.getWidth()*2f + getTexture().getWidth()*2f));
+		xArray.add(MathUtils.random(-getTexture().getWidth()*1f, 0f));
+		xArray.add(MathUtils.random(Gdx.graphics.getWidth()*1f, Gdx.graphics.getWidth() + getTexture().getWidth()));
 		
 		int index = MathUtils.random(1);
 		
@@ -128,8 +141,8 @@ public class FirstZombie implements Character {
 		
 		Array<Float> yArray = new Array<Float>();
 		
-		yArray.add(MathUtils.random(-getTexture().getHeight()*2f, -getTexture().getHeight()*1f));
-		yArray.add(MathUtils.random(Gdx.graphics.getHeight()*2f, Gdx.graphics.getHeight()*2f + getTexture().getHeight()*2f));
+		yArray.add(MathUtils.random(-getTexture().getHeight()*1f, 0f));
+		yArray.add(MathUtils.random(Gdx.graphics.getHeight()*1f, Gdx.graphics.getHeight() + getTexture().getHeight()));
 		
 		int index = MathUtils.random(1);
 		

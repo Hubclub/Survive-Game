@@ -1,13 +1,15 @@
 package com.hubclub.survive;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.hubclub.survive.screens.MainMenuScreen;
 
 public class Survive extends Game {
-
+	
 	public void create() {
 		
 		this.setScreen(new MainMenuScreen(this));
+		
 	}
 	
 	public void render() {

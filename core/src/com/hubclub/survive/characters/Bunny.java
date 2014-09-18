@@ -1,9 +1,11 @@
 package com.hubclub.survive.characters;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
+import com.hubclub.survive.Constants;
 
 public class Bunny implements Character {
 	
@@ -13,8 +15,9 @@ public class Bunny implements Character {
 	private float y;
 	private int stateTime; // Used to animate
 	private int dir; // Used for direction (1 - right, 2 - down, 3 - left, 4 - up)
-	private int speed = 200; // 200 pixels / second
+	private float speed = 200; // 200 pixels / second
 	private Texture currentState;
+	private Rectangle hitBox;
 	
 	private int deltaX; // Used for swipe. If this 2 variables aren't global
 	private int deltaY; // the swipe won't work
@@ -23,11 +26,15 @@ public class Bunny implements Character {
 		
 		dir = 1;
 		
+		if(Constants.WIDTH_SCALE >= Constants.HEIGHT_SCALE) speed *= Constants.WIDTH_SCALE;
+		else if (Constants.WIDTH_SCALE < Constants.HEIGHT_SCALE) speed *= Constants.HEIGHT_SCALE;
+		
 		currentState = new Texture(Gdx.files.internal("images/monkey.png"));
 		
 		x = Gdx.graphics.getWidth() / 2;
 		y = Gdx.graphics.getHeight() / 2;
 		
+		hitBox = new Rectangle(x, y, getTexture().getWidth(), getTexture().getHeight());
 	}// END OF CONSTRUCTOR
 	
 	public void render(float deltaTime) {
@@ -88,6 +95,11 @@ public class Bunny implements Character {
 		return currentState;
 		
 	}// END OF getTexture METHOD
+	
+	public Rectangle getRectangle() {
+		
+		return hitBox;
+	}
 	
 	public void dispose() {
 		
