@@ -8,8 +8,8 @@ public class DesktopLauncher {
 	public static void main (String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Survive Game";
-		cfg.width = 800;
-		cfg.height = 480;
+		cfg.width = 480;
+		cfg.height = 800;
 		cfg.useGL30 = false;
 		cfg.resizable = false;
 		new LwjglApplication(new Survive(), cfg);
