@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class FirstZombie implements Character {
 
-	private int charType = 2; // Means he is the bunny ( 0 - object, 1 - bunny, 2 - mob)
+	private int charType = 2; // Means he is a mob ( 0 - object, 1 - bunny, 2 - mob)
 	  						  // Helps at collisions
 	private float x; // Coordinates
 	private float y;
