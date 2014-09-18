@@ -13,7 +13,7 @@ public class FirstZombie implements Character {
 	private float y;
 	private int stateTime; // Used to animate
 	private int dir; // Used for direction (1 - right, 2 - down, 3 - left, 4 - up)
-	private int speed = 120; // 200 pixels / second
+	private int speed = 120; // 120 pixels / second
 	
 	private float sum;
 	private float time;
