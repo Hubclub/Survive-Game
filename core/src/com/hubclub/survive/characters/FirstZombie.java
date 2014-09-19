@@ -11,8 +11,6 @@ public class FirstZombie implements Character {
 
 	private int charType = 2; // Means he is the mob ( 0 - object, 1 - bunny, 2 - mob)
 	  						  // Helps at collisions
-	private float x; // Coordinates
-	private float y;
 	private int stateTime; // Used to animate
 	private int dir; // Used for direction (1 - right, 2 - down, 3 - left, 4 - up)
 	private float speed = 120;// 120 pixels / second 
@@ -28,6 +26,8 @@ public class FirstZombie implements Character {
 		
 		currentState = new Texture(Gdx.files.internal("images/zombie.png"));
 		
+		hitBox = new Rectangle(0, 0, getTexture().getWidth(), getTexture().getHeight());
+		
 		if(Constants.WIDTH_SCALE >= Constants.HEIGHT_SCALE) speed *= Constants.WIDTH_SCALE;
 		else if (Constants.WIDTH_SCALE < Constants.HEIGHT_SCALE) speed *= Constants.HEIGHT_SCALE;
 		
@@ -35,17 +35,15 @@ public class FirstZombie implements Character {
 		
 		if(random == 0) {
 			
-			x = getRandomX();
-			y = MathUtils.random(0f, Gdx.graphics.getHeight());
+			hitBox.x = getRandomX();
+			hitBox.y = MathUtils.random(0f, Gdx.graphics.getHeight());
 			
 		} else if (random == 1) {
 			
-			y = getRandomY();
-			x = MathUtils.random(0f, Gdx.graphics.getWidth());
+			hitBox.y = getRandomY();
+			hitBox.x = MathUtils.random(0f, Gdx.graphics.getWidth());
 			
 		}
-		
-		hitBox = new Rectangle(x, y, getTexture().getWidth(), getTexture().getHeight());
 		
 		sum = 0f;
 	}// END OF CONSTRUCTOR
@@ -68,15 +66,15 @@ public class FirstZombie implements Character {
 
 	private void move(float deltaTime) {
 		
-		if(dir == 1) x-=speed * deltaTime;
-		else if(dir == 2) y-=speed * deltaTime;
-		else if(dir == 3) x+=speed * deltaTime;
-		else if(dir == 4) y+=speed * deltaTime;
+		if(dir == 1) hitBox.x-=speed * deltaTime;
+		else if(dir == 2) hitBox.y-=speed * deltaTime;
+		else if(dir == 3) hitBox.x+=speed * deltaTime;
+		else if(dir == 4) hitBox.y+=speed * deltaTime;
 		
-		if(x + getTexture().getWidth() < 0) x = Gdx.graphics.getWidth();
-		else if(x > Gdx.graphics.getWidth()) x = 0;
-		else if(y + getTexture().getHeight() < 0) y = Gdx.graphics.getHeight();
-		else if(y > Gdx.graphics.getHeight()) y= 0;
+		if(hitBox.x + getTexture().getWidth() < 0) hitBox.x = Gdx.graphics.getWidth();
+		else if(hitBox.x > Gdx.graphics.getWidth()) hitBox.x = 0;
+		else if(hitBox.y + getTexture().getHeight() < 0) hitBox.y = Gdx.graphics.getHeight();
+		else if(hitBox.y > Gdx.graphics.getHeight()) hitBox.y = 0;
 		
 	}// END OF move METHOD
 	
@@ -87,23 +85,23 @@ public class FirstZombie implements Character {
 
 	public void setX(float x) {
 		
-		this.x = x;
+		this.hitBox.x = x;
 		
 	}
 
 	public float getX() {
 
-		return x;
+		return hitBox.x;
 	}
 
 	public void setY(float y) {
 		
-		this.y = y;
+		this.hitBox.y = y;
 	}
 
 	public float getY() {
 		
-		return y;
+		return hitBox.y;
 	}
 	
 	public Rectangle getRectangle() {

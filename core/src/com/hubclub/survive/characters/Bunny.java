@@ -11,8 +11,6 @@ public class Bunny implements Character {
 	
 	private int charType = 1; // Means he is the bunny ( 0 - object, 1 - bunny, 2 - mob)
 							  // Helps at collisions
-	private float x; // Coordinates
-	private float y;
 	private int stateTime; // Used to animate
 	private int dir; // Used for direction (1 - right, 2 - down, 3 - left, 4 - up)
 	private float speed = 200; // 200 pixels / second
@@ -26,35 +24,35 @@ public class Bunny implements Character {
 		
 		dir = 1;
 		
+		currentState = new Texture(Gdx.files.internal("images/monkey.png"));
+		
+		hitBox = new Rectangle(0, 0, getTexture().getWidth(), getTexture().getHeight());
+		
 		if(Constants.WIDTH_SCALE >= Constants.HEIGHT_SCALE) speed *= Constants.WIDTH_SCALE;
 		else if (Constants.WIDTH_SCALE < Constants.HEIGHT_SCALE) speed *= Constants.HEIGHT_SCALE;
 		
-		currentState = new Texture(Gdx.files.internal("images/monkey.png"));
+		hitBox.x = Gdx.graphics.getWidth() / 2;
+		hitBox.y = Gdx.graphics.getHeight() / 2;
 		
-		x = Gdx.graphics.getWidth() / 2;
-		y = Gdx.graphics.getHeight() / 2;
-		
-		hitBox = new Rectangle(x, y, getTexture().getWidth(), getTexture().getHeight());
 	}// END OF CONSTRUCTOR
 	
 	public void render(float deltaTime) {
 		
-		//stateTime += deltaTime / 2;
 		move(deltaTime);
 		
 	}// END OF render METHOD
 	
 	private void move(float deltaTime) {
 		
-		if(dir == 1) x-=speed * deltaTime;
-		else if(dir == 2) y-=speed * deltaTime;
-		else if(dir == 3) x+=speed * deltaTime;
-		else if(dir == 4) y+=speed * deltaTime;
+		if(dir == 1) hitBox.x-=speed * deltaTime;
+		else if(dir == 2) hitBox.y-=speed * deltaTime;
+		else if(dir == 3) hitBox.x+=speed * deltaTime;
+		else if(dir == 4) hitBox.y+=speed * deltaTime;
 		
-		if(x + getTexture().getWidth() < 0) x = Gdx.graphics.getWidth();
-		else if(x > Gdx.graphics.getWidth()) x = 0;
-		else if(y + getTexture().getHeight() < 0) y = Gdx.graphics.getHeight();
-		else if(y > Gdx.graphics.getHeight()) y= 0;
+		if(hitBox.x + getTexture().getWidth() < 0) hitBox.x = Gdx.graphics.getWidth();
+		else if(hitBox.x > Gdx.graphics.getWidth()) hitBox.x = 0;
+		else if(hitBox.y + getTexture().getHeight() < 0) hitBox.y = Gdx.graphics.getHeight();
+		else if(hitBox.y > Gdx.graphics.getHeight()) hitBox.y = 0;
 		
 	}// END OF move METHOD
 	
@@ -67,25 +65,25 @@ public class Bunny implements Character {
 	
 	public void setX(float x) {
 		
-		this.x = x;
+		this.hitBox.x = x;
 		
 	}// END OF setX METHOD
 	
 	public float getX() {
 		
-		return x;
+		return hitBox.x;
 		
 	}// END OF getX METHOD
 	
 	public void setY(float y) {
 		
-		this.y = y;
+		this.hitBox.y = y;
 		
 	}// END OF setY METHOD
 	
 	public float getY() {
 		
-		return y;
+		return hitBox.y;
 		
 	}// END OF getY METHOD
 	
