@@ -1,6 +1,7 @@
 package com.hubclub.survive.characters;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 
 public interface Character {
 	
@@ -12,4 +13,5 @@ public interface Character {
 	public float getY();
 	public void dispose();
 	public Texture getTexture();
+	public Rectangle getRectangle();
 }

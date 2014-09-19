@@ -3,17 +3,18 @@ package com.hubclub.survive.characters;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import com.hubclub.survive.Constants;
 
 public class FirstZombie implements Character {
 
-	private int charType = 2; // Means he is a mob ( 0 - object, 1 - bunny, 2 - mob)
+	private int charType = 2; // Means he is the mob ( 0 - object, 1 - bunny, 2 - mob)
 	  						  // Helps at collisions
-	private float x; // Coordinates
-	private float y;
 	private int stateTime; // Used to animate
 	private int dir; // Used for direction (1 - right, 2 - down, 3 - left, 4 - up)
-	private int speed = 120; // 120 pixels / second
+	private float speed = 120;// 120 pixels / second 
+	private Rectangle hitBox;
 	
 	private float sum;
 	private float time;
@@ -25,17 +26,22 @@ public class FirstZombie implements Character {
 		
 		currentState = new Texture(Gdx.files.internal("images/zombie.png"));
 		
+		hitBox = new Rectangle(0, 0, getTexture().getWidth(), getTexture().getHeight());
+		
+		if(Constants.WIDTH_SCALE >= Constants.HEIGHT_SCALE) speed *= Constants.WIDTH_SCALE;
+		else if (Constants.WIDTH_SCALE < Constants.HEIGHT_SCALE) speed *= Constants.HEIGHT_SCALE;
+		
 		int random = MathUtils.random(1);
 		
 		if(random == 0) {
 			
-			x = getRandomX();
-			y = MathUtils.random(0f, Gdx.graphics.getHeight());
+			hitBox.x = getRandomX();
+			hitBox.y = MathUtils.random(0f, Gdx.graphics.getHeight());
 			
 		} else if (random == 1) {
 			
-			y = getRandomY();
-			x = MathUtils.random(0f, Gdx.graphics.getWidth());
+			hitBox.y = getRandomY();
+			hitBox.x = MathUtils.random(0f, Gdx.graphics.getWidth());
 			
 		}
 		
@@ -60,15 +66,15 @@ public class FirstZombie implements Character {
 
 	private void move(float deltaTime) {
 		
-		if(dir == 1) x-=speed * deltaTime;
-		else if(dir == 2) y-=speed * deltaTime;
-		else if(dir == 3) x+=speed * deltaTime;
-		else if(dir == 4) y+=speed * deltaTime;
+		if(dir == 1) hitBox.x-=speed * deltaTime;
+		else if(dir == 2) hitBox.y-=speed * deltaTime;
+		else if(dir == 3) hitBox.x+=speed * deltaTime;
+		else if(dir == 4) hitBox.y+=speed * deltaTime;
 		
-		if(x + getTexture().getWidth() < 0) x = Gdx.graphics.getWidth();
-		else if(x > Gdx.graphics.getWidth()) x = 0;
-		else if(y + getTexture().getHeight() < 0) y = Gdx.graphics.getHeight();
-		else if(y > Gdx.graphics.getHeight()) y= 0;
+		if(hitBox.x + getTexture().getWidth() < 0) hitBox.x = Gdx.graphics.getWidth();
+		else if(hitBox.x > Gdx.graphics.getWidth()) hitBox.x = 0;
+		else if(hitBox.y + getTexture().getHeight() < 0) hitBox.y = Gdx.graphics.getHeight();
+		else if(hitBox.y > Gdx.graphics.getHeight()) hitBox.y = 0;
 		
 	}// END OF move METHOD
 	
@@ -79,27 +85,32 @@ public class FirstZombie implements Character {
 
 	public void setX(float x) {
 		
-		this.x = x;
+		this.hitBox.x = x;
 		
 	}
 
 	public float getX() {
 
-		return x;
+		return hitBox.x;
 	}
 
 	public void setY(float y) {
 		
-		this.y = y;
+		this.hitBox.y = y;
 	}
 
 	public float getY() {
 		
-		return y;
+		return hitBox.y;
 	}
-
-	public void dispose() {
+	
+	public Rectangle getRectangle() {
 		
+		return hitBox;
+	}
+	
+	public void dispose() {
+		currentState.dispose();
 	}
 
 	public Texture getTexture() {
@@ -113,8 +124,8 @@ public class FirstZombie implements Character {
 		
 		Array<Float> xArray = new Array<Float>();
 		
-		xArray.add(MathUtils.random(-getTexture().getWidth()*2f, -getTexture().getWidth()*1f));
-		xArray.add(MathUtils.random(Gdx.graphics.getWidth()*2f, Gdx.graphics.getWidth()*2f + getTexture().getWidth()*2f));
+		xArray.add(MathUtils.random(-getTexture().getWidth()*1f, 0f));
+		xArray.add(MathUtils.random(Gdx.graphics.getWidth()*1f, Gdx.graphics.getWidth() + getTexture().getWidth()));
 		
 		int index = MathUtils.random(1);
 		
@@ -128,8 +139,8 @@ public class FirstZombie implements Character {
 		
 		Array<Float> yArray = new Array<Float>();
 		
-		yArray.add(MathUtils.random(-getTexture().getHeight()*2f, -getTexture().getHeight()*1f));
-		yArray.add(MathUtils.random(Gdx.graphics.getHeight()*2f, Gdx.graphics.getHeight()*2f + getTexture().getHeight()*2f));
+		yArray.add(MathUtils.random(-getTexture().getHeight()*1f, 0f));
+		yArray.add(MathUtils.random(Gdx.graphics.getHeight()*1f, Gdx.graphics.getHeight() + getTexture().getHeight()));
 		
 		int index = MathUtils.random(1);
 		
