@@ -2,6 +2,7 @@ package com.hubclub.survive.characters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
 public class IntelligentZombie implements Character {
@@ -19,7 +20,8 @@ public class IntelligentZombie implements Character {
 	
 	public IntelligentZombie(Bunny bunny){
 		currentState=new Texture(Gdx.files.internal("images/zombie.png"));
-		charRect=new Rectangle(-currentState.getWidth(),-currentState.getHeight(),currentState.getWidth(),currentState.getHeight());
+		charRect=new Rectangle();
+		getCorner();
 		this.bunny=bunny;
 	}
 	
@@ -39,6 +41,19 @@ public class IntelligentZombie implements Character {
 				charRect.y-=speed*deltaTime;
 			}
 		}
+		
+	}
+	
+	private void getCorner(){
+		dir=MathUtils.random(0,3);
+		
+		switch(dir){
+		case 0:charRect.set(-currentState.getWidth()*Gdx.graphics.getWidth()/480,-currentState.getHeight()*Gdx.graphics.getHeight()/800,currentState.getWidth()*Gdx.graphics.getHeight()/480,currentState.getHeight()*Gdx.graphics.getHeight()/800);break;
+		case 1:charRect.set(-currentState.getWidth()*Gdx.graphics.getWidth()/480,Gdx.graphics.getHeight()+currentState.getHeight()*Gdx.graphics.getHeight()/800,currentState.getWidth()*Gdx.graphics.getHeight()/480,currentState.getHeight()*Gdx.graphics.getHeight()/800);break;
+		case 2:charRect.set(Gdx.graphics.getWidth()+currentState.getWidth()*Gdx.graphics.getWidth()/480,-currentState.getHeight()*Gdx.graphics.getHeight()/800,currentState.getWidth()*Gdx.graphics.getHeight()/480,currentState.getHeight()*Gdx.graphics.getHeight()/800);break;
+		case 3:charRect.set(Gdx.graphics.getWidth()+currentState.getWidth()*Gdx.graphics.getWidth()/480,Gdx.graphics.getHeight()+currentState.getHeight()*Gdx.graphics.getHeight()/800,currentState.getWidth()*Gdx.graphics.getHeight()/480,currentState.getHeight()*Gdx.graphics.getHeight()/800);break;
+		}
+		
 		
 	}
 
@@ -82,6 +97,18 @@ public class IntelligentZombie implements Character {
 	public Texture getTexture() {
 		// TODO Auto-generated method stub
 		return currentState;
+	}
+
+	@Override
+	public float getWidth() {
+		// TODO Auto-generated method stub
+		return charRect.width;
+	}
+
+	@Override
+	public float getHeight() {
+		// TODO Auto-generated method stub
+		return charRect.height;
 	}
 
 }
