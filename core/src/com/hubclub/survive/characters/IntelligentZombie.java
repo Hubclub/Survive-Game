@@ -11,7 +11,7 @@ public class IntelligentZombie implements Character {
 
 	private int charType=2;//means this is a mob
 	private int stateTime; // Used to animate
-	private int dir;// Used for direction (1 - right, 2 - down, 3 - left, 4 - up)
+	private int dir = 1;// Used for direction (1 - right, 2 - down, 3 - left, 4 - up)
 	private int speed = 150;
 	
 	private Rectangle hitBox; //retains coordinates plus width and height
@@ -54,17 +54,22 @@ public class IntelligentZombie implements Character {
 	
 	private void move(float deltaTime) {
 		
+		if(dir == 1) hitBox.x-=speed * deltaTime;
+		else if(dir == 2) hitBox.y-=speed * deltaTime;
+		else if(dir == 3) hitBox.x+=speed * deltaTime;
+		else if(dir == 4) hitBox.y+=speed * deltaTime;
+		
 		if(Math.abs(hitBox.x-bunny.getX())>Math.abs(hitBox.y-bunny.getY())){
 			if(hitBox.x<bunny.getX()){
-				hitBox.x+=speed*deltaTime;
+				dir = 3;
 			}else if(hitBox.x>bunny.getX()) {
-				hitBox.x-=speed*deltaTime;
+				dir = 1;
 			}
 		}else{
 			if(hitBox.y<bunny.getY()){
-				hitBox.y+=speed*deltaTime;
+				dir = 4;
 			}else if(hitBox.y>bunny.getY()) {
-				hitBox.y-=speed*deltaTime;
+				dir = 2;
 			}
 		}
 	}// END OF move METHOD
