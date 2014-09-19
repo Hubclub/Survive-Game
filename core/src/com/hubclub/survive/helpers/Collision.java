@@ -2,7 +2,7 @@ package com.hubclub.survive.helpers;
 
 public class Collision {
 	
-	private Array<Rectangle>;
+//	private Array<Rectangle> array;
 	
 	
 }
