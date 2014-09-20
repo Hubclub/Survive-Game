@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.hubclub.survive.Constants;
 
-public class TravelerZombie implements Character{
+public class XTravelerZombie implements Character {
 	private int charType=2;//means this is a mob
 	private int stateTime; // Used to animate
 	private int dir = 1;// Used for direction (1 - right, 2 - down, 3 - left, 4 - up)
@@ -21,7 +21,7 @@ public class TravelerZombie implements Character{
 	
 	private Bunny bunny;
 	
-public TravelerZombie(Bunny bunny){
+public XTravelerZombie(Bunny bunny){
 		
 		currentState = new Texture(Gdx.files.internal("images/zombie.png"));
 		
@@ -60,15 +60,39 @@ private void move(float deltaTime) {
 	else if(dir == 3) hitBox.x+=speed * deltaTime;
 	else if(dir == 4) hitBox.y+=speed * deltaTime;*/
 	
-	if(hitBox.x<bunny.getX())
-		hitBox.x+=speed * deltaTime;
-	else
-		hitBox.x-=speed * deltaTime;
-	System.out.println(hitBox.x+" "+bunny.getX());
-	if(hitBox.y<bunny.getY())
-		hitBox.y+=speed * deltaTime;
-	else 
-		hitBox.y-=speed * deltaTime;
+	if(Math.abs(hitBox.x-bunny.getX())<Gdx.graphics.getWidth()-Math.abs(hitBox.x-bunny.getX())){
+		if(hitBox.x>bunny.getX())
+			hitBox.x-=speed*deltaTime;
+		else
+			hitBox.x+=speed*deltaTime;
+	}else{
+		if(Gdx.graphics.getWidth()-hitBox.x+bunny.getX()<=Gdx.graphics.getWidth()+hitBox.x-bunny.getX())
+			hitBox.x+=speed*deltaTime;
+		else
+			hitBox.x-=speed*deltaTime;
+	}
+	
+	if(Math.abs(hitBox.y-bunny.getY())<Gdx.graphics.getHeight()-Math.abs(hitBox.y-bunny.getY())){
+		if(hitBox.y>bunny.getY())
+			hitBox.y-=speed*deltaTime;
+		else
+			hitBox.y+=speed*deltaTime;
+	}else{
+		if(Gdx.graphics.getHeight()-hitBox.y+bunny.getY()<=Gdx.graphics.getHeight()+hitBox.y-bunny.getY())
+			hitBox.y+=speed*deltaTime;
+		else
+			hitBox.y-=speed*deltaTime;
+	}
+	
+	
+	if(hitBox.x<0)
+		hitBox.x=Gdx.graphics.getWidth();
+	else if(hitBox.x>Gdx.graphics.getWidth())
+		hitBox.x=0;
+	if(hitBox.y<0)
+		hitBox.y=Gdx.graphics.getHeight();
+	else if(hitBox.y>Gdx.graphics.getHeight())
+		hitBox.y=0;
 		
 }// END OF move METHOD
 
@@ -146,6 +170,15 @@ public Rectangle getRectangle() {
 		
 	}// END OF getRandomY METHOD
 	
-
+	private int min(float a,float b,float c){
+		if(a<=b){
+			if(a<=c){
+				return 1;
+			}else return 3;
+		}else {
+			if(b<=c) return 2;
+			else return 3;
+		}
+	}
 
 }

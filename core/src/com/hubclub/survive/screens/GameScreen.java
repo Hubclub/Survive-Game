@@ -12,12 +12,14 @@ import com.hubclub.survive.characters.Bunny;
 import com.hubclub.survive.characters.FirstZombie;
 import com.hubclub.survive.characters.IntelligentZombie;
 import com.hubclub.survive.characters.TravelerZombie;
+import com.hubclub.survive.characters.XIntelligentZombie;
+import com.hubclub.survive.characters.XTravelerZombie;
 
 public class GameScreen implements Screen {
 	
 	private Survive game; // variable used to change the screen
 	private Bunny bunny;
-	private IntelligentZombie fzombie1;
+	private XIntelligentZombie fzombie1;
 	private TravelerZombie fzombie2;
 	private FirstZombie fzombie3;
 	private FirstZombie fzombie4;
@@ -39,7 +41,7 @@ public class GameScreen implements Screen {
 		
 		bunny = new Bunny();
 		
-		fzombie1 = new IntelligentZombie(bunny);
+		fzombie1 = new XIntelligentZombie(bunny);
 		fzombie2 = new TravelerZombie(bunny);
 		fzombie3 = new FirstZombie();
 		fzombie4 = new FirstZombie();
@@ -59,7 +61,7 @@ public class GameScreen implements Screen {
 		batch.begin();
 		batch.draw(bunny.getTexture(), bunny.getX(), bunny.getY(), bunny.getTexture().getWidth() * Constants.WIDTH_SCALE, bunny.getTexture().getHeight() * Constants.HEIGHT_SCALE);
 		
-		//batch.draw(fzombie1.getTexture(), fzombie1.getX(), fzombie1.getY(), fzombie1.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie1.getTexture().getHeight() * Constants.HEIGHT_SCALE);
+		batch.draw(fzombie1.getTexture(), fzombie1.getX(), fzombie1.getY(), fzombie1.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie1.getTexture().getHeight() * Constants.HEIGHT_SCALE);
 		batch.draw(fzombie2.getTexture(), fzombie2.getX(), fzombie2.getY(), fzombie2.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie2.getTexture().getHeight() * Constants.HEIGHT_SCALE);
 		//batch.draw(fzombie3.getTexture(), fzombie3.getX(), fzombie3.getY(), fzombie3.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie3.getTexture().getHeight() * Constants.HEIGHT_SCALE);
 		//batch.draw(fzombie4.getTexture(), fzombie4.getX(), fzombie4.getY(), fzombie4.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie4.getTexture().getHeight() * Constants.HEIGHT_SCALE);
@@ -67,7 +69,7 @@ public class GameScreen implements Screen {
 		batch.end();
 		
 		bunny.render(delta);
-		//fzombie1.render(delta);
+		fzombie1.render(delta);
 		fzombie2.render(delta);
 		//fzombie3.render(delta);
 		//fzombie4.render(delta);

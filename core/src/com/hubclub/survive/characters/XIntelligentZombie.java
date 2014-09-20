@@ -7,13 +7,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.hubclub.survive.Constants;
 
-public class TravelerZombie implements Character{
+public class XIntelligentZombie implements Character {
+
 	private int charType=2;//means this is a mob
 	private int stateTime; // Used to animate
 	private int dir = 1;// Used for direction (1 - right, 2 - down, 3 - left, 4 - up)
-	private int speed = 80;
-	
-	private float minX,minY;
+	private int speed = 150;
 	
 	private Rectangle hitBox; //retains coordinates plus width and height
 	
@@ -21,7 +20,7 @@ public class TravelerZombie implements Character{
 	
 	private Bunny bunny;
 	
-public TravelerZombie(Bunny bunny){
+public XIntelligentZombie(Bunny bunny){
 		
 		currentState = new Texture(Gdx.files.internal("images/zombie.png"));
 		
@@ -54,22 +53,48 @@ public void render(float deltaTime) {
 }
 
 private void move(float deltaTime) {
-
-	/*if(dir == 1) hitBox.x-=speed * deltaTime;
+	
+	if(dir == 1) hitBox.x-=speed * deltaTime;
 	else if(dir == 2) hitBox.y-=speed * deltaTime;
 	else if(dir == 3) hitBox.x+=speed * deltaTime;
-	else if(dir == 4) hitBox.y+=speed * deltaTime;*/
+	else if(dir == 4) hitBox.y+=speed * deltaTime;
 	
-	if(hitBox.x<bunny.getX())
-		hitBox.x+=speed * deltaTime;
-	else
-		hitBox.x-=speed * deltaTime;
-	System.out.println(hitBox.x+" "+bunny.getX());
-	if(hitBox.y<bunny.getY())
-		hitBox.y+=speed * deltaTime;
-	else 
-		hitBox.y-=speed * deltaTime;
+	if(Math.min(Math.abs(hitBox.x-bunny.getX()),Gdx.graphics.getWidth()-Math.abs(-hitBox.x+bunny.getX()))>=Math.min(Math.abs(hitBox.y-bunny.getY()),Gdx.graphics.getHeight()-Math.abs(-hitBox.y+bunny.getY()))){
+		if(hitBox.x<=bunny.getX() ){
+			if(bunny.getX()-hitBox.x<=Gdx.graphics.getWidth()-bunny.getX()+hitBox.x)
+				dir = 3;
+			else
+				dir=1;
+		}else {
+			if(hitBox.x-bunny.getX()<=Gdx.graphics.getWidth()-hitBox.x+bunny.getX())
+				dir = 1;
+			else 
+				dir = 3;
+		}
 		
+	}else{
+		if(hitBox.y<bunny.getY() ){
+			if(bunny.getY()-hitBox.y<=Gdx.graphics.getHeight()-bunny.getY()+hitBox.y)
+				dir = 4;
+			else 
+				dir = 2;
+		}else {
+			if(hitBox.y-bunny.getY()<=Gdx.graphics.getHeight()-hitBox.y+bunny.getY())
+				dir = 2;
+			else 
+				dir = 4;
+		}
+	}
+	
+	if(hitBox.x<0)
+		hitBox.x=Gdx.graphics.getWidth();
+	else if(hitBox.x>Gdx.graphics.getWidth())
+		hitBox.x=0;
+	if(hitBox.y<0)
+		hitBox.y=Gdx.graphics.getHeight();
+	else if(hitBox.y>Gdx.graphics.getHeight())
+		hitBox.y=0;
+	
 }// END OF move METHOD
 
 public int getCharType() {
@@ -146,6 +171,8 @@ public Rectangle getRectangle() {
 		
 	}// END OF getRandomY METHOD
 	
-
+	
+	
+	
 
 }
