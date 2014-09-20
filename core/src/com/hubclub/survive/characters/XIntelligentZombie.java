@@ -24,7 +24,7 @@ public XIntelligentZombie(Bunny bunny){
 		
 		currentState = new Texture(Gdx.files.internal("images/zombie.png"));
 		
-		hitBox = new Rectangle();
+		hitBox = new Rectangle(0,0,currentState.getWidth() * Constants.WIDTH_SCALE, currentState.getHeight() * Constants.HEIGHT_SCALE);
 		
 		if(Constants.WIDTH_SCALE >= Constants.HEIGHT_SCALE) speed *= Constants.WIDTH_SCALE;
 		else if (Constants.WIDTH_SCALE < Constants.HEIGHT_SCALE) speed *= Constants.HEIGHT_SCALE;

@@ -30,7 +30,7 @@ public class Carrot implements Character{
 	public void render(float deltaTime) {
 		// TODO Auto-generated method stub
 		time+=deltaTime;
-		System.out.println(time);
+		//System.out.println(time);
 	}
 
 	@Override

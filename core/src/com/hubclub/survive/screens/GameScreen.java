@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 import com.hubclub.survive.Constants;
 import com.hubclub.survive.Survive;
 import com.hubclub.survive.characters.Bunny;
@@ -15,6 +16,8 @@ import com.hubclub.survive.characters.IntelligentZombie;
 import com.hubclub.survive.characters.TravelerZombie;
 import com.hubclub.survive.characters.XIntelligentZombie;
 import com.hubclub.survive.characters.XTravelerZombie;
+import com.hubclub.survive.characters.Zombie;
+import com.hubclub.survive.helpers.Collision;
 
 public class GameScreen implements Screen {
 	
@@ -25,7 +28,9 @@ public class GameScreen implements Screen {
 	private FirstZombie fzombie3;
 	private FirstZombie fzombie4;
 	private Carrot carrot;
-	
+	//private Zombie zm;
+	private Collision col;
+	private Array<Zombie> zombies;
 	private double startTime, endTime;
 	
 	private SpriteBatch batch;
@@ -36,6 +41,7 @@ public class GameScreen implements Screen {
 	public GameScreen(Survive game) {
 		this.game = game;
 		
+		col=new Collision();
 		viewCam = new OrthographicCamera();
 		viewCam.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
@@ -43,15 +49,28 @@ public class GameScreen implements Screen {
 		
 		bunny = new Bunny();
 		
+		//zm=new Zombie(1,bunny);
+		
 		carrot=new Carrot();
-		fzombie1 = new XIntelligentZombie(bunny);
-		fzombie2 = new TravelerZombie(bunny);
-		fzombie3 = new FirstZombie();
-		fzombie4 = new FirstZombie();
+		
+		zombies=new Array<Zombie>();
+		//zombies.add(new Zombie(1,bunny));
+		zombies.add(new Zombie(1,bunny));
+		zombies.add(new Zombie(2,bunny));
+		zombies.add(new Zombie(4,bunny));
+		
+		/* fzombie1 = new XIntelligentZombie(bunny);
+		/* fzombie2 = new TravelerZombie(bunny);
+		 * fzombie3 = new FirstZombie();
+		 * fzombie4 = new FirstZombie();
+		*/
 		
 	}// END OF CONSTRUCTOR
 	
 	public void render(float delta) {
+		
+		col.setBunny(bunny.getRectangle());
+		col.setZombies(zombies);
 
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		
@@ -68,19 +87,27 @@ public class GameScreen implements Screen {
 		else 
 			carrot.dispose();
 		
-		batch.draw(fzombie1.getTexture(), fzombie1.getX(), fzombie1.getY(), fzombie1.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie1.getTexture().getHeight() * Constants.HEIGHT_SCALE);
-		batch.draw(fzombie2.getTexture(), fzombie2.getX(), fzombie2.getY(), fzombie2.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie2.getTexture().getHeight() * Constants.HEIGHT_SCALE);
+		for(int i=0;i<zombies.size;i++){
+			zombies.get(i).draw(batch);
+		}
+		
+		//batch.draw(fzombie1.getTexture(), fzombie1.getX(), fzombie1.getY(), fzombie1.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie1.getTexture().getHeight() * Constants.HEIGHT_SCALE);
+		//batch.draw(fzombie2.getTexture(), fzombie2.getX(), fzombie2.getY(), fzombie2.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie2.getTexture().getHeight() * Constants.HEIGHT_SCALE);
 		//batch.draw(fzombie3.getTexture(), fzombie3.getX(), fzombie3.getY(), fzombie3.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie3.getTexture().getHeight() * Constants.HEIGHT_SCALE);
 		//batch.draw(fzombie4.getTexture(), fzombie4.getX(), fzombie4.getY(), fzombie4.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie4.getTexture().getHeight() * Constants.HEIGHT_SCALE);
 		
 		batch.end();
 		
 		bunny.render(delta);
-		fzombie1.render(delta);
-		fzombie2.render(delta);
+		//fzombie1.render(delta);
+		//fzombie2.render(delta);
 		carrot.render(delta);
 		//fzombie3.render(delta);
 		//fzombie4.render(delta);
+		for(Zombie zm : zombies){
+			zm.render(delta);
+		}
+		col.detectCollisions();
 		
 	}// END OF render METHOD
 	
