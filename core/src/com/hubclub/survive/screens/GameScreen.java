@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.hubclub.survive.Constants;
 import com.hubclub.survive.Survive;
 import com.hubclub.survive.characters.Bunny;
+import com.hubclub.survive.characters.Carrot;
 import com.hubclub.survive.characters.FirstZombie;
 import com.hubclub.survive.characters.IntelligentZombie;
 import com.hubclub.survive.characters.TravelerZombie;
@@ -23,6 +24,7 @@ public class GameScreen implements Screen {
 	private TravelerZombie fzombie2;
 	private FirstZombie fzombie3;
 	private FirstZombie fzombie4;
+	private Carrot carrot;
 	
 	private double startTime, endTime;
 	
@@ -41,6 +43,7 @@ public class GameScreen implements Screen {
 		
 		bunny = new Bunny();
 		
+		carrot=new Carrot();
 		fzombie1 = new XIntelligentZombie(bunny);
 		fzombie2 = new TravelerZombie(bunny);
 		fzombie3 = new FirstZombie();
@@ -60,6 +63,10 @@ public class GameScreen implements Screen {
 		batch.setProjectionMatrix(viewCam.combined);
 		batch.begin();
 		batch.draw(bunny.getTexture(), bunny.getX(), bunny.getY(), bunny.getTexture().getWidth() * Constants.WIDTH_SCALE, bunny.getTexture().getHeight() * Constants.HEIGHT_SCALE);
+		if(carrot.exists())
+			batch.draw(carrot.getTexture(), carrot.getX(),carrot.getY(),carrot.getRectangle().width,carrot.getRectangle().height);
+		else 
+			carrot.dispose();
 		
 		batch.draw(fzombie1.getTexture(), fzombie1.getX(), fzombie1.getY(), fzombie1.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie1.getTexture().getHeight() * Constants.HEIGHT_SCALE);
 		batch.draw(fzombie2.getTexture(), fzombie2.getX(), fzombie2.getY(), fzombie2.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie2.getTexture().getHeight() * Constants.HEIGHT_SCALE);
@@ -71,6 +78,7 @@ public class GameScreen implements Screen {
 		bunny.render(delta);
 		fzombie1.render(delta);
 		fzombie2.render(delta);
+		carrot.render(delta);
 		//fzombie3.render(delta);
 		//fzombie4.render(delta);
 		

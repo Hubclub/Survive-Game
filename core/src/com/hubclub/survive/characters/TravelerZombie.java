@@ -64,7 +64,7 @@ private void move(float deltaTime) {
 		hitBox.x+=speed * deltaTime;
 	else
 		hitBox.x-=speed * deltaTime;
-	System.out.println(hitBox.x+" "+bunny.getX());
+
 	if(hitBox.y<bunny.getY())
 		hitBox.y+=speed * deltaTime;
 	else 
