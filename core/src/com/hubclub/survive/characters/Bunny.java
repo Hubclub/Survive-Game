@@ -20,9 +20,15 @@ public class Bunny implements Character {
 	private int deltaX; // Used for swipe. If this 2 variables aren't global
 	private int deltaY; // the swipe won't work
 	
+	private boolean onRampage;
+	
+	private int carrotsEaten;
+	
 	public Bunny() {
 		
 		dir = 1;
+		
+		onRampage=true;
 		
 		currentState = new Texture(Gdx.files.internal("images/monkey.png"));
 		
@@ -119,6 +125,10 @@ public class Bunny implements Character {
 		}// END OF keyDown METHOD
 		
 	}// END OF BunnyDesktopInputProcessor CLASS
+	
+	public boolean isOnRampage(){
+		return onRampage;
+	}
 	
 	public class BunnyAndroidInputProcessor extends InputAdapter {
 		

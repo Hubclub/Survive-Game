@@ -28,9 +28,9 @@ public class GameScreen implements Screen {
 	private FirstZombie fzombie3;
 	private FirstZombie fzombie4;
 	private Carrot carrot;
-	//private Zombie zm;
 	private Collision col;
 	private Array<Zombie> zombies;
+	private Array<Carrot> carrots;
 	private double startTime, endTime;
 	
 	private SpriteBatch batch;
@@ -49,12 +49,14 @@ public class GameScreen implements Screen {
 		
 		bunny = new Bunny();
 		
-		//zm=new Zombie(1,bunny);
 		
 		carrot=new Carrot();
 		
+		carrots=new Array<Carrot>();
+		
+		carrots.add(carrot);
+		
 		zombies=new Array<Zombie>();
-		//zombies.add(new Zombie(1,bunny));
 		zombies.add(new Zombie(1,bunny));
 		zombies.add(new Zombie(2,bunny));
 		zombies.add(new Zombie(4,bunny));
@@ -69,8 +71,9 @@ public class GameScreen implements Screen {
 	
 	public void render(float delta) {
 		
-		col.setBunny(bunny.getRectangle());
+		col.setBunny(bunny);
 		col.setZombies(zombies);
+		col.setPowerups(carrots);
 
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		
@@ -79,10 +82,26 @@ public class GameScreen implements Screen {
 		else if(Gdx.app.getType() == ApplicationType.Android) 
 			Gdx.input.setInputProcessor(bunny.new BunnyAndroidInputProcessor());
 		
+		draw();
+		
+		bunny.render(delta);
+		//fzombie1.render(delta);
+		//fzombie2.render(delta);
+		carrot.render(delta);
+		//fzombie3.render(delta);
+		//fzombie4.render(delta);
+		for(Zombie zm : zombies){
+			zm.render(delta);
+		}
+		col.detectCollisions();
+		
+	}// END OF render METHOD
+	
+	public void draw(){
 		batch.setProjectionMatrix(viewCam.combined);
 		batch.begin();
 		batch.draw(bunny.getTexture(), bunny.getX(), bunny.getY(), bunny.getTexture().getWidth() * Constants.WIDTH_SCALE, bunny.getTexture().getHeight() * Constants.HEIGHT_SCALE);
-		if(carrot.exists())
+		if(!carrot.isEaten())
 			batch.draw(carrot.getTexture(), carrot.getX(),carrot.getY(),carrot.getRectangle().width,carrot.getRectangle().height);
 		else 
 			carrot.dispose();
@@ -97,19 +116,7 @@ public class GameScreen implements Screen {
 		//batch.draw(fzombie4.getTexture(), fzombie4.getX(), fzombie4.getY(), fzombie4.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie4.getTexture().getHeight() * Constants.HEIGHT_SCALE);
 		
 		batch.end();
-		
-		bunny.render(delta);
-		//fzombie1.render(delta);
-		//fzombie2.render(delta);
-		carrot.render(delta);
-		//fzombie3.render(delta);
-		//fzombie4.render(delta);
-		for(Zombie zm : zombies){
-			zm.render(delta);
-		}
-		col.detectCollisions();
-		
-	}// END OF render METHOD
+	}
 	
 	public void resize(int width, int height) {
 		

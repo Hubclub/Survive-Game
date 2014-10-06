@@ -16,6 +16,8 @@ public class Carrot implements Character{
 
 	private Texture texture;
 	
+	private boolean eaten=false;
+	
 
 	
 	public Carrot(){
@@ -23,13 +25,13 @@ public class Carrot implements Character{
 		
 		box=new Rectangle(MathUtils.random(Gdx.graphics.getWidth()),MathUtils.random(Gdx.graphics.getHeight()),texture.getWidth(),texture.getHeight());
 		
-		time=0;
+		//time=0;
 	}
 	
 	@Override
 	public void render(float deltaTime) {
 		// TODO Auto-generated method stub
-		time+=deltaTime;
+		//time+=deltaTime;
 		//System.out.println(time);
 	}
 
@@ -81,11 +83,14 @@ public class Carrot implements Character{
 		return box;
 	}
 	
-	public boolean exists(){
-		if(time>5)
-			return false;
-		else 
-			return true;
+	public void setEaten(boolean eaten){
+		this.eaten=eaten;
 	}
+	
+	public boolean isEaten(){
+		return eaten;
+	}
+	
+	
 
 }
