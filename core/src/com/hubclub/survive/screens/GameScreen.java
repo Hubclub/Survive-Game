@@ -109,6 +109,7 @@ public class GameScreen implements Screen {
 		if(!carrot.isEaten())
 			batch.draw(carrot.getTexture(), carrot.getX(),carrot.getY(),carrot.getRectangle().width,carrot.getRectangle().height);
 		else {
+			bunny.setCarrotsEaten(bunny.getCarrotsEaten()+1);
 			score+=100;
 			carrot.dispose();
 			carrot=new Carrot();

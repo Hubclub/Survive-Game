@@ -21,6 +21,7 @@ public class Bunny implements Character {
 	private int deltaY; // the swipe won't work
 	
 	private boolean onRampage;
+	private float rampageTime;
 	
 	private int carrotsEaten;
 	
@@ -28,7 +29,7 @@ public class Bunny implements Character {
 		
 		dir = 1;
 		
-		onRampage=true;
+	
 		
 		currentState = new Texture(Gdx.files.internal("images/monkey.png"));
 		
@@ -43,6 +44,19 @@ public class Bunny implements Character {
 	}// END OF CONSTRUCTOR
 	
 	public void render(float deltaTime) {
+		
+		if(carrotsEaten==5){
+			carrotsEaten=0;
+			onRampage=true;
+			rampageTime=0;
+		}
+		
+		if(onRampage)
+			rampageTime+=deltaTime;
+		
+		if(rampageTime>5)
+			onRampage=false;
+			
 		
 		move(deltaTime);
 		
@@ -118,6 +132,7 @@ public class Bunny implements Character {
 		currentState.dispose();
 		
 	}// END OF dispose METHOD
+	
 	
 	public class BunnyDesktopInputProcessor extends InputAdapter {
 		
