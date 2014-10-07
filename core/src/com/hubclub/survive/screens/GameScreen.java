@@ -18,6 +18,7 @@ import com.hubclub.survive.characters.XIntelligentZombie;
 import com.hubclub.survive.characters.XTravelerZombie;
 import com.hubclub.survive.characters.Zombie;
 import com.hubclub.survive.helpers.Collision;
+import com.hubclub.survive.helpers.Spawn;
 
 public class GameScreen implements Screen {
 	
@@ -30,9 +31,9 @@ public class GameScreen implements Screen {
 	private Carrot carrot;
 	private Collision col;
 	private Array<Zombie> zombies;
-	private Array<Carrot> carrots;
+	private Spawn spawner;
 	private double startTime, endTime;
-	
+	private int score;
 	private SpriteBatch batch;
 	private OrthographicCamera viewCam;
 	// This constructor is used instead of show method, because we need to 
@@ -41,6 +42,7 @@ public class GameScreen implements Screen {
 	public GameScreen(Survive game) {
 		this.game = game;
 		
+		spawner=new Spawn();
 		col=new Collision();
 		viewCam = new OrthographicCamera();
 		viewCam.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -49,17 +51,12 @@ public class GameScreen implements Screen {
 		
 		bunny = new Bunny();
 		
-		
+		score =0;
 		carrot=new Carrot();
 		
-		carrots=new Array<Carrot>();
-		
-		carrots.add(carrot);
+	
 		
 		zombies=new Array<Zombie>();
-		zombies.add(new Zombie(1,bunny));
-		zombies.add(new Zombie(2,bunny));
-		zombies.add(new Zombie(4,bunny));
 		
 		/* fzombie1 = new XIntelligentZombie(bunny);
 		/* fzombie2 = new TravelerZombie(bunny);
@@ -71,9 +68,10 @@ public class GameScreen implements Screen {
 	
 	public void render(float delta) {
 		
-		col.setBunny(bunny);
-		col.setZombies(zombies);
-		col.setPowerups(carrots);
+		col.set(spawner,bunny,zombies,carrot);
+		
+		spawner.set(zombies,  bunny, score);
+		spawner.spawn();
 
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		
@@ -103,8 +101,13 @@ public class GameScreen implements Screen {
 		batch.draw(bunny.getTexture(), bunny.getX(), bunny.getY(), bunny.getTexture().getWidth() * Constants.WIDTH_SCALE, bunny.getTexture().getHeight() * Constants.HEIGHT_SCALE);
 		if(!carrot.isEaten())
 			batch.draw(carrot.getTexture(), carrot.getX(),carrot.getY(),carrot.getRectangle().width,carrot.getRectangle().height);
-		else 
+		else {
+			score+=100;
 			carrot.dispose();
+			carrot=new Carrot();
+			System.out.println(score);
+		}
+		
 		
 		for(int i=0;i<zombies.size;i++){
 			zombies.get(i).draw(batch);

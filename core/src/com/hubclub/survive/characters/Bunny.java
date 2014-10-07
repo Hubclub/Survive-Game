@@ -105,6 +105,14 @@ public class Bunny implements Character {
 		return hitBox;
 	}
 	
+	public int getCarrotsEaten(){
+		return carrotsEaten;
+	}
+	
+	public void setCarrotsEaten(int nr){
+		carrotsEaten=nr;
+	}
+	
 	public void dispose() {
 		
 		currentState.dispose();

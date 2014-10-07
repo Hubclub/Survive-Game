@@ -19,8 +19,30 @@ public class Zombie implements Poolable{
 	private TravelerZombie zombie4;
 	private XTravelerZombie zombie5;
 	
-	public Zombie(int code,Bunny bunny){
-		this.code=code;
+	public Zombie(){
+		
+
+	}
+	
+	public void init(int rand,Bunny bunny){
+		if(rand<30)
+			code=1;
+		else{
+			if(rand<50)
+				code=2;
+			else{
+				if(rand<70)
+					code=3;
+					else{
+						if(rand<85)
+							code=4;
+						else
+							code=5;
+		
+					}
+				}
+			}
+		
 		switch(code){
 		case 1:
 			zombie1=new FirstZombie();
@@ -37,14 +59,28 @@ public class Zombie implements Poolable{
 		case 5:
 			zombie5=new XTravelerZombie(bunny);
 		}
-
 	}
 	
 	
 
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
+		switch(code){
+		case 1:
+			zombie1.getTexture().dispose();
+			break;
+		case 2:
+			zombie2.getTexture().dispose();
+			break;
+		case 3:
+			zombie3.getTexture().dispose();
+			break;
+		case 4:
+			zombie4.getTexture().dispose();
+			break;
+		case 5:
+			zombie5.getTexture().dispose();
+		}
 		
 	}
 	
