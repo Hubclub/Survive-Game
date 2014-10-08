@@ -3,32 +3,28 @@ package com.hubclub.survive.screens;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.Array;
 import com.hubclub.survive.Constants;
 import com.hubclub.survive.Survive;
 import com.hubclub.survive.characters.Bunny;
 import com.hubclub.survive.characters.Carrot;
-import com.hubclub.survive.characters.FirstZombie;
-import com.hubclub.survive.characters.IntelligentZombie;
-import com.hubclub.survive.characters.TravelerZombie;
-import com.hubclub.survive.characters.XIntelligentZombie;
-import com.hubclub.survive.characters.XTravelerZombie;
 import com.hubclub.survive.characters.Zombie;
 import com.hubclub.survive.helpers.Collision;
 import com.hubclub.survive.helpers.Spawn;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 
 public class GameScreen implements Screen {
 	
 	private Survive game; // variable used to change the screen
 	private Bunny bunny;
-	private XIntelligentZombie fzombie1;
-	private TravelerZombie fzombie2;
-	private FirstZombie fzombie3;
-	private FirstZombie fzombie4;
 	private Carrot carrot;
 	private Collision col;
 	private Array<Zombie> zombies;
@@ -37,6 +33,8 @@ public class GameScreen implements Screen {
 	private int score;
 	private SpriteBatch batch;
 	private OrthographicCamera viewCam;
+	private BitmapFont font;
+	private ShapeRenderer shape;
 
     private Texture background;
 	// This constructor is used instead of show method, because we need to 
@@ -44,6 +42,12 @@ public class GameScreen implements Screen {
 	
 	public GameScreen(Survive game) {
 		this.game = game;
+		
+		shape = new ShapeRenderer();
+		
+		font=new BitmapFont(Gdx.files.internal("FOO-64.fnt"));
+		font.setColor(Color.GREEN);
+		font.setScale(Constants.WIDTH_SCALE*0.3f);
 		
 		spawner=new Spawn();
 		col=new Collision();
@@ -79,6 +83,8 @@ public class GameScreen implements Screen {
 
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		
+		
+		
 		if(Gdx.app.getType() == ApplicationType.Desktop)
 			Gdx.input.setInputProcessor(bunny.new BunnyDesktopInputProcessor());
 		else if(Gdx.app.getType() == ApplicationType.Android) 
@@ -102,10 +108,17 @@ public class GameScreen implements Screen {
 	public void draw(){
 		batch.setProjectionMatrix(viewCam.combined);
 		batch.begin();
+		shape.begin(ShapeType.Filled);
         //draw the background
-        batch.draw(background, 0, 0, Gdx.graphics.getWidth() * Constants.WIDTH_SCALE, Gdx.graphics.getHeight() * Constants.HEIGHT_SCALE);
-
-		batch.draw(bunny.getTexture(), bunny.getX(), bunny.getY(), bunny.getTexture().getWidth() * Constants.WIDTH_SCALE, bunny.getTexture().getHeight() * Constants.HEIGHT_SCALE);
+		if(!bunny.isOnRampage())
+			batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		else{
+		
+			Gdx.gl.glClearColor(getRandomColor().r,getRandomColor().g,getRandomColor().b,getRandomColor().a);
+		//	shape.setColor(Color.RED);
+			//shape.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		}
+		batch.draw(bunny.getTexture(), bunny.getX(), bunny.getY(), bunny.getRectangle().width, bunny.getRectangle().height);
 		if(!carrot.isEaten())
 			batch.draw(carrot.getTexture(), carrot.getX(),carrot.getY(),carrot.getRectangle().width,carrot.getRectangle().height);
 		else {
@@ -121,12 +134,23 @@ public class GameScreen implements Screen {
 			zombies.get(i).draw(batch);
 		}
 		
+		font.draw(batch, "Score:"+score, 0, Gdx.graphics.getHeight()-font.getCapHeight());
 		//batch.draw(fzombie1.getTexture(), fzombie1.getX(), fzombie1.getY(), fzombie1.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie1.getTexture().getHeight() * Constants.HEIGHT_SCALE);
 		//batch.draw(fzombie2.getTexture(), fzombie2.getX(), fzombie2.getY(), fzombie2.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie2.getTexture().getHeight() * Constants.HEIGHT_SCALE);
 		//batch.draw(fzombie3.getTexture(), fzombie3.getX(), fzombie3.getY(), fzombie3.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie3.getTexture().getHeight() * Constants.HEIGHT_SCALE);
 		//batch.draw(fzombie4.getTexture(), fzombie4.getX(), fzombie4.getY(), fzombie4.getTexture().getWidth() * Constants.WIDTH_SCALE, fzombie4.getTexture().getHeight() * Constants.HEIGHT_SCALE);
-		
+		shape.end();
 		batch.end();
+	}
+	
+	private Color getRandomColor(){
+		int rand = MathUtils.random(1, 3);
+		switch(rand){
+		case 1 : return Color.GREEN;
+		case 2 : return Color.RED;
+		case 3 : return Color.BLUE;
+		default : return Color.WHITE;
+		}
 	}
 	
 	public void resize(int width, int height) {

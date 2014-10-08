@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.hubclub.survive.Constants;
 import com.hubclub.survive.Survive;
 
 public class MainMenuScreen implements Screen{
@@ -25,6 +26,7 @@ public class MainMenuScreen implements Screen{
         spriteBatch = new SpriteBatch();
         font = new BitmapFont(Gdx.files.internal("FOO-64.fnt"));
         font.setColor(Color.GREEN   );
+        font.setScale(Constants.WIDTH_SCALE);
 	}
 	
 	public void render(float delta) {

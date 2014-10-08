@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.hubclub.survive.Constants;
 
 public class Carrot implements Character{
 
@@ -23,7 +24,7 @@ public class Carrot implements Character{
 	public Carrot(){
 		texture=new Texture(Gdx.files.internal("images/carrot.png"));
 		
-		box=new Rectangle(MathUtils.random(Gdx.graphics.getWidth() - texture.getWidth()),MathUtils.random(Gdx.graphics.getHeight() - texture.getHeight()),texture.getWidth(),texture.getHeight());
+		box=new Rectangle(MathUtils.random(Gdx.graphics.getWidth() - Constants.CARROT_WIDTH),MathUtils.random(Gdx.graphics.getHeight() - Constants.CARROT_HEIGHT),Constants.CARROT_WIDTH,Constants.CARROT_HEIGHT);
 		
 		//time=0;
 	}

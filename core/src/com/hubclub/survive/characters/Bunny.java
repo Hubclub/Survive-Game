@@ -33,7 +33,7 @@ public class Bunny implements Character {
 		
 		currentState = new Texture(Gdx.files.internal("images/monkey.png"));
 		
-		hitBox = new Rectangle(0, 0, getTexture().getWidth(), getTexture().getHeight());
+		hitBox = new Rectangle(0, 0, Constants.BUNNY_WIDTH, Constants.BUNNY_HEIGHT);
 		
 		if(Constants.WIDTH_SCALE >= Constants.HEIGHT_SCALE) speed *= Constants.WIDTH_SCALE;
 		else if (Constants.WIDTH_SCALE < Constants.HEIGHT_SCALE) speed *= Constants.HEIGHT_SCALE;

@@ -26,7 +26,7 @@ public class FirstZombie implements Character {
 		
 		currentState = new Texture(Gdx.files.internal("images/zombie.png"));
 		
-		hitBox = new Rectangle(0, 0, getTexture().getWidth(), getTexture().getHeight());
+		hitBox = new Rectangle(0, 0, Constants.ZOMBIE_WIDTH, Constants.ZOMBIE_HEIGHT);
 		
 		if(Constants.WIDTH_SCALE >= Constants.HEIGHT_SCALE) speed *= Constants.WIDTH_SCALE;
 		else if (Constants.WIDTH_SCALE < Constants.HEIGHT_SCALE) speed *= Constants.HEIGHT_SCALE;
