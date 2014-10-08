@@ -23,7 +23,7 @@ public class Carrot implements Character{
 	public Carrot(){
 		texture=new Texture(Gdx.files.internal("images/carrot.png"));
 		
-		box=new Rectangle(MathUtils.random(Gdx.graphics.getWidth()),MathUtils.random(Gdx.graphics.getHeight()),texture.getWidth(),texture.getHeight());
+		box=new Rectangle(MathUtils.random(Gdx.graphics.getWidth() - texture.getWidth()),MathUtils.random(Gdx.graphics.getHeight() - texture.getHeight()),texture.getWidth(),texture.getHeight());
 		
 		//time=0;
 	}
