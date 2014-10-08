@@ -23,7 +23,7 @@ public class MainMenuScreen implements Screen{
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         spriteBatch = new SpriteBatch();
-        font = new BitmapFont(Gdx.files.internal("GREENFUZ-64.fnt"));
+        font = new BitmapFont(Gdx.files.internal("FOO-64.fnt"));
         font.setColor(Color.GREEN   );
 	}
 	

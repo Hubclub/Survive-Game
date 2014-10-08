@@ -104,7 +104,7 @@ public class GameScreen implements Screen {
 		batch.begin();
         //draw the background
         batch.draw(background, 0, 0, Gdx.graphics.getWidth() * Constants.WIDTH_SCALE, Gdx.graphics.getHeight() * Constants.HEIGHT_SCALE);
-        System.out.println("washere");
+
 		batch.draw(bunny.getTexture(), bunny.getX(), bunny.getY(), bunny.getTexture().getWidth() * Constants.WIDTH_SCALE, bunny.getTexture().getHeight() * Constants.HEIGHT_SCALE);
 		if(!carrot.isEaten())
 			batch.draw(carrot.getTexture(), carrot.getX(),carrot.getY(),carrot.getRectangle().width,carrot.getRectangle().height);
